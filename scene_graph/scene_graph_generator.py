@@ -74,8 +74,8 @@ def funsd_scene_graph_generator(input_path, type):
 
   # There are two types scene graphs one is position based global scene graph
   # Another one is document components structural relationship based binary scene graph
-  # Type 1 means global relationship which will return reletively globally positional relationship 
-  # Type 2 will return binary structure or logical relationship between components
+  # Type 0 means global relationship which will return reletively globally positional relationship 
+  # Type 1 will return binary structure or logical relationship between components
 
   json_path = input_path+'/annotations/'
   img_path = input_path+'/images'
