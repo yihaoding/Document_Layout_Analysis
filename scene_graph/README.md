@@ -6,7 +6,7 @@ Nodes in this scene graph are document components and edges are the relatively s
 ## Structural Relation based Scene Graph  
 Another type of scene graph is designed to represent the document structural relationships between components. The right side of above figure represents the document structural relationship between header, question and answer in a questionnaire (Funsd dataset). Nodes in this kind of scene graph also is the document components, while the edges are designed to represent the structural relationships between components. The benefit of this kind of scene graph is it can determine the structural neighbour of a component as well sa it can also be used to emphasize some solid rules for specific domian docuemnts. For example in a scientific paper, a figure or table  must have a caption. The name of edges can be determined as the label of target components or given another appropriate name according to application scenarios.
 ### Publaynet  
-The document components in publaynet dataset are divided into 5 categories including title, text, list, figure and table. The possible relations between documents including: 
+The document components in publaynet dataset are divided into 5 categories including title, text, list, figure and table. The possible relations between documents including:  
 ***title -> title (edge: subtitle)  
 title -> title (edge: parent title)  
 title -> text (edge: section content)  
