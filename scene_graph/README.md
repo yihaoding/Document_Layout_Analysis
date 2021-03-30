@@ -16,4 +16,7 @@ table -> text (table caption)***
 ### Docbank  
 Docbank dataset contains 13 number of categories, but it is similar to publaynet dataset which also uses the structural relationships to annotate the type of edges in scene graph.
 ### Funsd
-Funsd dataset contains 4 components categories including header, question, answer and other. The typical structural relationships include ***question -> answer (edge: 'answer' or 'answer of question'), answer -> question (edge: 'question' or 'question of answer'), question -> header (edge: 'header', 'header of question) and more.***
+Funsd dataset contains 4 components categories including header, question, answer and other. The typical structural relationships include  
+***question -> answer (edge: 'answer' or 'answer of question')  
+answer -> question (edge: 'question' or 'question of answer')  
+question -> header (edge: 'header', 'header of question) and more.***
