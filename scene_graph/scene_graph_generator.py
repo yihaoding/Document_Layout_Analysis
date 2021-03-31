@@ -31,7 +31,7 @@ def publaynet_scene_graph_generator(train_json_path,image_path):
   img_list = os.listdir(image_path)
   scene_graph = {}
   relation_id = 0
-  for i in range(3):
+  for i in range(len(img_list):
     img_name = img_list[i]
     print(img_name)
     scene_graph[img_name] = {}
@@ -84,7 +84,7 @@ def funsd_scene_graph_generator(input_path, type):
   relation_id = 0
   bi_relation = 0
   scene_graph = {}
-  for index in range(3):
+  for index in range(len(img_list)):
     print(index)
     name = img_list[index][:-4]
     image = Image.open(img_path+'/'+name+'.png')
@@ -152,4 +152,62 @@ def funsd_scene_graph_generator(input_path, type):
     return scene_graph
   if type == 0:
     return scene_graph
+              
+# the bounding box format of docbank dataset is different from 
+# other datasets, which need be transfered into [x,y,w,h] 
+def bbox_transfer(bbox):
+  new_bbox = []
+  new_bbox.append(bbox[0])
+  new_bbox.append(bbox[1])
+  new_bbox.append(bbox[2]-bbox[0])
+  new_bbox.append(bbox[3]-bbox[1])
+  return new_bbox
+
+# docbank dataset scene graph generator
+def docbank_scene_graph_generator(image_path,box_path):
+  with open(image_path) as f:
+    img_json = json.load(f)
+  df_box = pd.read_csv(box_path)
+  bbox_list = df_box.values.tolist()
+  # 0:id, 1:x1, 2:y1, 3:x2, 4:y2, 5:label, 6:text, 7:image_id
+  scene_graph = {}
+  relation_id = 0
+  s_relation_id = 0
+  bbox_id = 0 # testing setting is 0
+  for i in range(3):
+    print(i)
+    img_id = img_info[i]['id']
+    name = img_info[i]['name']
+    print(name)
+    scene_graph[name] = {}
+    scene_graph[name]['id'] = img_id
+    scene_graph[name]['width'] = img_info[i]['page_size'][0]
+    scene_graph[name]['height'] = img_info[i]['page_size'][1]
+    scene_graph[name]['objects'] = {}
+    num_bbox = 0
+    for j in range(len(bbox_list)):
+      if bbox_list[j][7] == img_id:
+        scene_graph[name]['objects'][str(num_bbox)] = {}
+        scene_graph[name]['objects'][str(num_bbox)]['id'] = bbox_id
+        scene_graph[name]['objects'][str(num_bbox)]['box'] = bbox_transfer(bbox_list[j][1:5])
+        scene_graph[name]['objects'][str(num_bbox)]['category'] = bbox_list[j][5]
+        scene_graph[name]['objects'][str(num_bbox)]['text'] = bbox_list[j][6]
+        scene_graph[name]['objects'][str(num_bbox)]['relations'] = {}
+        bbox_id += 1
+        num_bbox += 1
+    for k in scene_graph[name]['objects']:
+      objects = scene_graph[name]['objects'][k]
+      obj_relations = 0
+      for others in scene_graph[name]['objects']:
+        if others != k:
+          others = scene_graph[name]['objects'][others]
+          objects['relations'][str(obj_relations)] = {}
+          objects['relations'][str(obj_relations)]['id'] = str(relation_id)
+          objects['relations'][str(obj_relations)]['object'] = others['id']
+          bbox1 = objects['box']
+          bbox2 = others['box']
+          scene_graph[name]['objects'][k]['relations'][str(obj_relations)]['name'] = relative_position(bbox1,bbox2)
+          obj_relations += 1
+          relation_id += 1
+  return scene_graph
 
