@@ -12,7 +12,8 @@ title -> title (edge: parent title)
 title -> text (edge: section content)  
 text -> title (edge: section title)  
 title -> figure (edge: figure)  
-table -> text (table caption)*** 
+table -> text (edge: table caption)  
+text -> figure (edge: mentioned)*** 
 ### Docbank  
 Docbank dataset contains 13 number of categories, but it is similar to publaynet dataset which also uses the structural relationships to annotate the type of edges in scene graph.
 ### Funsd
